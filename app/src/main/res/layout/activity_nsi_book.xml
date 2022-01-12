@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".Activity.NsiBook">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/book_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="3dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:titleTextColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/downloading_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Downloading please wait...."
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/seek_bar"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="5dp"
+        android:textStyle="bold"/>
+
+    <com.github.barteksc.pdfviewer.PDFView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/book_toolbar"
+        android:id="@+id/pdfView"/>
+
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/banner_adUnitId">
+    </com.google.android.gms.ads.AdView>
+
+
+</RelativeLayout>

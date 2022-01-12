@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "949317002753",
+    "firebase_url": "https://nsiassd2020.firebaseio.com",
+    "project_id": "nsiassd2020",
+    "storage_bucket": "nsiassd2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949317002753:android:736d3484e2f0954f834200",
+        "android_client_info": {
+          "package_name": "nsi.assd.exam.nsiassdquiz2020"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949317002753-urve5n2ofdv315hlhk97mfnb1i225sje.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nsi.assd.exam.nsiassdquiz2020",
+            "certificate_hash": "f614281262fcf92e1d123f7479895fe4c052a86e"
+          }
+        },
+        {
+          "client_id": "949317002753-8e4i2u72gn0o8l4fhopiihnadbi2v9rj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfCDXN1NpftVXO9ceaakE42gZbzDgUBp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949317002753-8e4i2u72gn0o8l4fhopiihnadbi2v9rj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nev_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/abt_developer"
+            android:icon="@drawable/ic_about_devloper"
+            android:title="@string/about_developer" />
+        <item
+            android:id="@+id/nav_apps"
+            android:icon="@drawable/ic_app"
+            android:title="@string/my_other_app" />
+        <item
+            android:id="@+id/nav_rate"
+            android:icon="@drawable/ic_rate"
+            android:title="@string/rate_us" />
+        <item
+            android:id="@+id/check_update"
+            android:icon="@drawable/ic_update_app"
+            android:title="@string/check_for_update" />
+    </group>
+
+    <item android:title="@string/communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_contact"
+                android:title="@string/contact_us" />
+            <item
+                android:id="@+id/whatsapp_me"
+                android:icon="@drawable/whats_app"
+                android:title="@string/whatsapp_me" />
+        </menu>
+    </item>
+    <item android:title="@string/others">
+        <menu>
+            <item
+                android:id="@+id/nav_privacy_policy"
+                android:icon="@drawable/privacy_policy"
+                android:title="@string/privacy_policy" />
+            <item
+                android:id="@+id/nav_Terms_and_conditions"
+                android:icon="@drawable/terms_and_condition"
+                android:title="@string/Terms_and_Conditions" />
+        </menu>
+    </item>
+
+</menu>
