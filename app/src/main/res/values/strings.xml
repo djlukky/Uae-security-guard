@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nsi Assd Quiz 2021</string>
+    <string name="app_name">Uae Security Guard</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -22,17 +22,17 @@
     <string name="score_5">5</string>
     <string name="Out_of_50">OUT OF 50</string>
     <string name="done_btn">done</string>
-    <string name="loading_text">Loading...</string>
+    <string name="loading_text">Loading…</string>
     <string name="bookmark_question">question</string>
     <string name="bookmark_ans">answer</string>
     <string name="home">Home</string>
-    <string name="about_developer">Aboout Developer</string>
+    <string name="about_developer">About Developer</string>
     <string name="my_other_app">My other apps</string>
     <string name="rate_us">Rate us</string>
     <string name="communicate">Communicate</string>
     <string name="share">Share</string>
     <string name="contact_us">Email us</string>
-    <string name="about_devloper">Ramesh Aryal Securityguard Middle East Abudhabi UAE, ID No. 11534 E-mail: ramesh.aryal86@gmail.com djlukky@gmail.com  Mobile: 0551366480</string>
+    <string name="about_devloper">Ramesh Aryal Securiguard Middle East Abudhabi UAE, ID No. 11534 E-mail: ramesh.aryal86@gmail.com djlukky@gmail.com  Mobile: 0551366480</string>
     <string name="dismiss_btn">Dismiss</string>
     <string name="notification">notification</string>
     <string name="message">message</string>
@@ -41,8 +41,8 @@
      <string name="connection_failed">Unable to download new Questions Answers , Please check your Internet Connection</string>
      <string name="category_no_connection">Unable to connect, Please check your Internet Connection</string>
      <string name="notification_no_connection">Unable to connect, Please check your Internet Connection</string>
-     <string name="splash_text1">NSI ASSD QUIZ 2020</string>
-     <string name="splash_text2">Devlop by Ramesh Aryal</string>
+     <string name="splash_text1">UAE Security Guard</string>
+     <string name="splash_text2">Developed by Ramesh Aryal</string>
      <string name="whatsapp_me">Whatsapp me</string>
      <string name="notes">Notes</string>
      <string name="question">Question</string>
@@ -50,8 +50,8 @@
      <string name="exit">Exit</string>
      <string name="no._indicator">1/50</string>
      <string name="countdown_timer">0.30</string>
-     <string name="banner_adUnitId">ca-app-pub-7048614630346378/6939706776</string>
-     <string name="interstitialAd_adUnitId">ca-app-pub-7048614630346378/8671042100</string>
+     <string name="banner_adUnitId">ca-app-pub-5036751140347494/9052827191</string>
+     <string name="interstitialAd_adUnitId">ca-app-pub-5036751140347494/2575920897</string>
     <string name="high_score">Score = 0</string>
     <string name="nsi_book">Nsi Book</string>
     <string name="useful_contacts">Useful Contacts</string>
@@ -70,7 +70,8 @@
     <string name="privacy_policy">Pravacy Policy</string>
     <string name="Terms_and_Conditions">Terms and Conditions</string>
     <string name="tips">Tips</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="virtual_exam">Online Exam</string>
+    <string name="about_app">About App</string>
 
 </resources>

@@ -1,5 +1,8 @@
 package nsi.assd.exam.nsiassdquiz2020.Activity;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import nsi.assd.exam.nsiassdquiz2020.R;
@@ -21,7 +24,9 @@ import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -196,28 +201,33 @@ public class NsiBook extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private void loadAds() {
-        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        InterstitialAd.load(this,(getString(R.string.interstitialAd_adUnitId)), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        Log.i(TAG, "onAdLoaded");
+                    }
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getString(R.string.interstitialAd_adUnitId));
-        adRequest = new AdRequest.Builder().build();
-        mInterstitialAd.loadAd(adRequest);
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i(TAG, loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
     }
     @Override
     public void onBackPressed() {
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    finish();
-                }
-            });
+        if (mInterstitialAd!= null) {
+            mInterstitialAd.show(NsiBook.this);
+
         } else {
             super.onBackPressed();
         }
     }
-    }
+
+}

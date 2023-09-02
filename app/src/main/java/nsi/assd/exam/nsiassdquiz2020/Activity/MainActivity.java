@@ -4,11 +4,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.GridLayoutAnimationController;
 import android.view.animation.LayoutAnimationController;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -24,18 +23,20 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.smarteist.autoimageslider.SliderView;
-
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import java.util.ArrayList;
 import java.util.List;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,9 +44,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import eu.dkaratzas.android.inapp.update.Constants;
-import eu.dkaratzas.android.inapp.update.InAppUpdateManager;
-import eu.dkaratzas.android.inapp.update.InAppUpdateStatus;
 import hotchemi.android.rate.AppRate;
 import nsi.assd.exam.nsiassdquiz2020.Adapter.MainAdapter;
 import nsi.assd.exam.nsiassdquiz2020.Model.ImageSliderModel;
@@ -53,7 +51,7 @@ import nsi.assd.exam.nsiassdquiz2020.OtherClass.AboutDeveloper;
 import nsi.assd.exam.nsiassdquiz2020.R;
 import static nsi.assd.exam.nsiassdquiz2020.Activity.ScoreActivity.myScore;
 
-public class MainActivity extends AppCompatActivity implements InAppUpdateManager.InAppUpdateHandler {
+public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private int totalCount;
@@ -61,7 +59,9 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     private List<String> title;
     private List<Integer> icon;
     private MainAdapter adapter;
-    private InAppUpdateManager inAppUpdateManager;
+    private AppUpdateManager appUpdateManager;
+    public static int RC_APP_UPDATE = 100;
+
 
 
     @Override
@@ -161,14 +161,15 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=nsi.assd.exam.nsiassdquiz2020");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
             return true;
         } else if (id == R.id.notification) {
             Intent intent = new Intent(this, NotificationsActivity.class);
             startActivity(intent);
         } else if (id == R.id.exit_app) {
             finish();
-        } else if (id == R.id.update_checker) {
-            updateApp();
         }
 
         return super.onOptionsItemSelected(item);
@@ -201,6 +202,11 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                 } else if (item.getItemId() == R.id.nav_Terms_and_conditions) {
                     termAndConditionsDialog();
 
+                } else if (item.getItemId() == R.id.update) {
+                    Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=nsi.assd.exam.nsiassdquiz2020");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+
 
                 } else if (item.getItemId() == R.id.nav_rate) {
                     Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=nsi.assd.exam.nsiassdquiz2020");
@@ -225,15 +231,15 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
 
                 } else if (item.getItemId() == R.id.whatsapp_me) {
                     try {
-                        String mobile = "+971551366480";
+                        String mobile = "+9779742531170";
                         String msg = "Hello Developer,";
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=" + mobile + "&text=" + msg)));
                     } catch (Exception e) {
                         //whatsApp app not install
                     }
 
-                } else if (item.getItemId() == R.id.check_update) {
-                    updateApp();
+                } else if (item.getItemId() == R.id.about_app) {
+                    Toast.makeText(MainActivity.this, "Version - 3.1", Toast.LENGTH_SHORT).show();
                 }
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
@@ -260,10 +266,11 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         dialog.setContentView(R.layout.privacy_policy_dialog);
         dialog.setCancelable(false);
         Window window = dialog.getWindow();
-        window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         WebView webView = dialog.findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("https://nsi-assd-quiz-2021.flycricket.io/privacy.html");
+        webView.setWebViewClient( new WebViewClient());
+        webView.loadUrl("https://www.ramesh-aryal.com.np/p/nsi-assd-quiz-2021-privacy-policy.html");
         Button okBtn = dialog.findViewById(R.id.ok_btn);
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,7 +289,8 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         WebView webView = dialog.findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("https://nsi-assd-quiz-2021.flycricket.io/terms.html");
+        webView.setWebViewClient( new WebViewClient());
+        webView.loadUrl("https://www.ramesh-aryal.com.np/p/uae-security-guard-terms-and-condition.html");
         Button okBtn = dialog.findViewById(R.id.ok_btn);
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,38 +302,56 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     }
 
     private void updateApp() {
-        inAppUpdateManager = InAppUpdateManager.Builder(this,101)
-                .resumeUpdates(true)
-                .mode(Constants.UpdateMode.FLEXIBLE)
-                .snackBarAction("An update has just been downloaded")
-                .snackBarAction("RESTART")
-                .handler(this);
-        inAppUpdateManager.checkForAppUpdate();
+      appUpdateManager = AppUpdateManagerFactory.create(this);
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+      appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+          if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                  && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE))
+          {
+              try {
+                  appUpdateManager.startUpdateFlowForResult(
+                          appUpdateInfo,AppUpdateType.FLEXIBLE,
+                          MainActivity.this,RC_APP_UPDATE);
+              } catch (IntentSender.SendIntentException e) {
+                  throw new RuntimeException(e);
+              }
+          }
 
+      });
+      appUpdateManager.registerListener(listener);
     }
+    InstallStateUpdatedListener listener = state -> {
+        if (state.installStatus() == InstallStatus.DOWNLOADED){
+            popupSnackbarForCompleteUpdate();
 
-
-    @Override
-    public void onInAppUpdateError(int code, Throwable error) {
-
-    }
-
-    @Override
-    public void onInAppUpdateStatus(InAppUpdateStatus status) {
-        if (status.isDownloaded()){
-            View view = getWindow().getDecorView().findViewById(android.R.id.content);
-            Snackbar snackbar = Snackbar.make(view,
-                    "An update has just been downloaded",
-                    Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction("", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    inAppUpdateManager.completeUpdate();
-
-                }
-            });
-            snackbar.show();
         }
+    };
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        appUpdateManager.unregisterListener(listener);
+    }
+
+    private void popupSnackbarForCompleteUpdate() {
+        Snackbar snackbar =
+                Snackbar.make(
+                        findViewById(android.R.id.content),
+                        "An update has just been downloaded.",
+                        Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("INSTALL", view -> appUpdateManager.completeUpdate());
+        snackbar.setActionTextColor(
+                getResources().getColor(android.R.color.holo_red_dark));
+        snackbar.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_APP_UPDATE) {
+            if (resultCode != RESULT_OK) {
+                Log.w("MainActivity", "Update flow failed! Result code: " + resultCode);
+            }
+        }
     }
 }

@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;

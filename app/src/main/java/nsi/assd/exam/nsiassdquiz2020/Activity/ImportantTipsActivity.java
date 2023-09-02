@@ -1,10 +1,14 @@
 package nsi.assd.exam.nsiassdquiz2020.Activity;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import nsi.assd.exam.nsiassdquiz2020.R;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -12,10 +16,14 @@ import android.webkit.WebView;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+
 
 public class ImportantTipsActivity extends AppCompatActivity {
-    InterstitialAd mInterstitialAd;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -335,27 +343,35 @@ public class ImportantTipsActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getString(R.string.interstitialAd_adUnitId));
         adRequest = new AdRequest.Builder().build();
-        mInterstitialAd.loadAd(adRequest);
-    }
-    @Override
-    public void onBackPressed() {
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    finish();
-                }
-            });
-        } else {
-            super.onBackPressed();
-        }
+        InterstitialAd.load(this,(getString(R.string.interstitialAd_adUnitId)), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        Log.i(TAG, "onAdLoaded");
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.d(TAG, loadAdError.toString());
+                        mInterstitialAd = null;
+                    }
+                });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mInterstitialAd!= null){
+            mInterstitialAd.show(ImportantTipsActivity.this);
+        }else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+        super.onBackPressed();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

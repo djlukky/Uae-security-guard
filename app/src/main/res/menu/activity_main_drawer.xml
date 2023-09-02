@@ -22,9 +22,10 @@
             android:icon="@drawable/ic_rate"
             android:title="@string/rate_us" />
         <item
-            android:id="@+id/check_update"
+            android:id="@+id/update"
             android:icon="@drawable/ic_update_app"
             android:title="@string/check_for_update" />
+
     </group>
 
     <item android:title="@string/communicate">
@@ -53,6 +54,10 @@
                 android:id="@+id/nav_Terms_and_conditions"
                 android:icon="@drawable/terms_and_condition"
                 android:title="@string/Terms_and_Conditions" />
+            <item
+                android:id="@+id/about_app"
+                android:icon="@drawable/common_full_open_on_phone"
+                android:title="@string/about_app" />
         </menu>
     </item>
 

@@ -23,7 +23,6 @@
 
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:layout_below="@+id/slideLayout"
                         android:id="@+id/homeRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

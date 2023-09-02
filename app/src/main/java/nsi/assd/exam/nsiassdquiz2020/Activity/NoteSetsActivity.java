@@ -1,5 +1,8 @@
 package nsi.assd.exam.nsiassdquiz2020.Activity;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -7,13 +10,16 @@ import nsi.assd.exam.nsiassdquiz2020.Adapter.NoteGridAdapter;
 import nsi.assd.exam.nsiassdquiz2020.R;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import java.util.List;
 
@@ -34,7 +40,7 @@ public class NoteSetsActivity extends AppCompatActivity {
 
         GridView gridview = findViewById(R.id.grid_view);
         List<String> sets = NoteCategoryActivity.list.get(getIntent().getIntExtra("position", 0)).getSets();
-        NoteGridAdapter adapter = new NoteGridAdapter(sets, getIntent().getStringExtra("title"),mInterstitialAd);
+        NoteGridAdapter adapter = new NoteGridAdapter(sets, getIntent().getStringExtra("title"));
         gridview.setAdapter(adapter);
     }
 
@@ -51,8 +57,23 @@ public class NoteSetsActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitialAd_adUnitId));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        adRequest = new AdRequest.Builder().build();
+        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        Log.i(TAG, "onAdLoaded");
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i(TAG, loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
     }
 }

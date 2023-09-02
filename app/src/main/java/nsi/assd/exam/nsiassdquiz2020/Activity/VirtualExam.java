@@ -1,7 +1,12 @@
 package nsi.assd.exam.nsiassdquiz2020.Activity;
 
+import static android.content.ContentValues.TAG;
+
+import static nsi.assd.exam.nsiassdquiz2020.R.id.linearLayout;
+
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -13,17 +18,21 @@ import android.widget.ProgressBar;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import nsi.assd.exam.nsiassdquiz2020.R;
 
 public class VirtualExam extends AppCompatActivity {
     private InterstitialAd mInterstitialAd;
-    private LinearLayout linearLayout;
     private ProgressBar progressBar;
     private String currentUrl;
+    private LinearLayout linearLayout;
     private WebView webView;
 
     @Override
@@ -34,12 +43,11 @@ public class VirtualExam extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Virtual Exam");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        linearLayout = findViewById(R.id.linearLayout);
         progressBar = findViewById(R.id.progressBar);
         webView = findViewById(R.id.webView);
 
         progressBar.setMax(100);
-        webView.loadUrl("https://www.arzelramesh.com/p/uae-security_3.html");
+        webView.loadUrl("https://www.ramesh-aryal.com.np/p/uae-security_3.html");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -71,35 +79,46 @@ public class VirtualExam extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getString(R.string.interstitialAd_adUnitId));
         adRequest = new AdRequest.Builder().build();
-        mInterstitialAd.loadAd(adRequest);
-    }
+        InterstitialAd.load(this,(getString(R.string.interstitialAd_adUnitId)), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        Log.i(TAG, "onAdLoaded");
+                    }
 
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i(TAG, loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
     @Override
     public void onBackPressed() {
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    webBackPress();
-                }
-            });
+        if (webView.canGoBack()) {
+            webView.goBack();
         } else {
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(VirtualExam.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
             super.onBackPressed();
         }
     }
 
-    private void webBackPress() {
-        if (webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            finish();
-        }
-    }
+//    private void webBackPress() {
+//        if (webView.canGoBack()) {
+//            webView.goBack();
+//        } else {
+//            finish();
+//        }
+//    }
 
 
     @Override

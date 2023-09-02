@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/rames/Android Studio Projects/NsiAssdQuiz2020/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/rames/Android Studio Projects/NsiAssdQuiz2020/app/src/main/res/layout/activity_question.xml" value="0.3625" />
+        <entry key="..\:/Users/rames/Android Studio Projects/NsiAssdQuiz2020/app/src/main/res/layout/activity_sets.xml" value="0.1762917933130699" />
+        <entry key="..\:/Users/rames/Android Studio Projects/NsiAssdQuiz2020/app/src/main/res/layout/activity_splash.xml" value="0.3625" />
+        <entry key="..\:/Users/rames/Android Studio Projects/NsiAssdQuiz2020/app/src/main/res/layout/app_bar_main.xml" value="0.1762917933130699" />
+        <entry key="..\:/Users/rames/Android Studio Projects/NsiAssdQuiz2020/app/src/main/res/layout/content_main.xml" value="0.1762917933130699" />
+        <entry key="..\:/Users/rames/Android Studio Projects/NsiAssdQuiz2020/app/src/main/res/layout/nav_header_main.xml" value="0.3625" />
+        <entry key="..\:/Users/rames/Android Studio Projects/NsiAssdQuiz2020/app/src/main/res/menu/activity_main_drawer.xml" value="0.3625" />
+        <entry key="..\:/Users/rames/Android Studio Projects/NsiAssdQuiz2020/app/src/main/res/menu/main.xml" value="0.3625" />
+        <entry key="..\:/Users/rames/Android Studio Projects/NsiAssdQuiz2020/app/src/main/res/mipmap-anydpi-v26/nsi_assd.xml" value="0.3105" />
+      </map>
+    </option>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK" />
 </project>

@@ -1,10 +1,11 @@
 package nsi.assd.exam.nsiassdquiz2020.Activity;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import nsi.assd.exam.nsiassdquiz2020.Model.QuestionModel;
 import nsi.assd.exam.nsiassdquiz2020.R;
 
@@ -21,6 +22,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
@@ -28,10 +31,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +44,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -82,6 +87,7 @@ public class QuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question);
         Toolbar toolbar = findViewById(R.id.question_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         startCountDown();
 
         question = findViewById(R.id.question_textview);
@@ -100,7 +106,7 @@ public class QuestionActivity extends AppCompatActivity {
         editor = preferences.edit();
         gson = new Gson();
         getBookmark();
-        loadAds();
+       loadAds();
 
 
         if (!isConnected(QuestionActivity.this)) {
@@ -178,8 +184,8 @@ public class QuestionActivity extends AppCompatActivity {
                             enableOption(true);
                             position++;
                             if (position == list.size()) {
-                                if (mInterstitialAd.isLoaded()) {
-                                    mInterstitialAd.show();
+                                if (mInterstitialAd!= null) {
+                                    mInterstitialAd.show(QuestionActivity.this);
                                     return;
                                 }
                                 ///score activity
@@ -386,26 +392,56 @@ public class QuestionActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // API 5+ solution
+                onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void loadAds() {
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitialAd_adUnitId));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-                mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                Intent scoreIntent = new Intent(QuestionActivity.this, ScoreActivity.class);
-                scoreIntent.putExtra("score", myScore);
-                scoreIntent.putExtra("total", list.size());
-                startActivity(scoreIntent);
-                finish();
-            }
-        });
+       // mInterstitialAd = new InterstitialAd(this);
+        //mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitialAd_adUnitId));
+        //mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        //mInterstitialAd.setAdListener(new AdListener() {
+           // @Override
+           // public void onAdClosed() {
+               // super.onAdClosed();
+                //mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        adRequest = new AdRequest.Builder().build();
+        InterstitialAd.load(this,(getString(R.string.interstitialAd_adUnitId)), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        Log.i(TAG, "onAdLoaded");
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i(TAG, loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+        /*Intent scoreIntent = new Intent(QuestionActivity.this, ScoreActivity.class);
+        scoreIntent.putExtra("score", myScore);
+        scoreIntent.putExtra("total", list.size());
+        startActivity(scoreIntent);
+        finish();*/
     }
 
     public boolean isConnected(android.content.Context context) {
@@ -433,13 +469,17 @@ public class QuestionActivity extends AppCompatActivity {
                 .setPositiveButton("Quit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent scoreIntent = new Intent(QuestionActivity.this, ScoreActivity.class);
-                        scoreIntent.putExtra("score", myScore);
-                        scoreIntent.putExtra("total", list.size());
-                        startActivity(scoreIntent);
-                        finish();
-
-                    }
+                        if (mInterstitialAd!= null){
+                            mInterstitialAd.show(QuestionActivity.this);
+                        }else {
+                            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                        }
+                            Intent scoreIntent = new Intent(QuestionActivity.this, ScoreActivity.class);
+                            scoreIntent.putExtra("score", myScore);
+                            scoreIntent.putExtra("total", list.size());
+                            startActivity(scoreIntent);
+                            finish();
+                        }
                 })
                 .setNegativeButton("Cancel", null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
