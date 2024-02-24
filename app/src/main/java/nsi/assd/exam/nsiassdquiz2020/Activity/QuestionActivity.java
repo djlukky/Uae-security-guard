@@ -106,7 +106,7 @@ public class QuestionActivity extends AppCompatActivity {
         editor = preferences.edit();
         gson = new Gson();
         getBookmark();
-       loadAds();
+        loadAds();
 
 
         if (!isConnected(QuestionActivity.this)) {
@@ -152,87 +152,85 @@ public class QuestionActivity extends AppCompatActivity {
         loadingDialog.show();
         myRef
                 .child("SETS").child(setId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    String id = dataSnapshot1.getKey();
-                    String question = dataSnapshot1.child("question").getValue().toString();
-                    String a = dataSnapshot1.child("optionA").getValue().toString();
-                    String b = dataSnapshot1.child("optionB").getValue().toString();
-                    String c = dataSnapshot1.child("optionC").getValue().toString();
-                    String d = dataSnapshot1.child("optionD").getValue().toString();
-                    String correctAns = dataSnapshot1.child("correctAns").getValue().toString();
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            String id = dataSnapshot1.getKey();
+                            String question = dataSnapshot1.child("question").getValue().toString();
+                            String a = dataSnapshot1.child("optionA").getValue().toString();
+                            String b = dataSnapshot1.child("optionB").getValue().toString();
+                            String c = dataSnapshot1.child("optionC").getValue().toString();
+                            String d = dataSnapshot1.child("optionD").getValue().toString();
+                            String correctAns = dataSnapshot1.child("correctAns").getValue().toString();
 
-                    list.add(new QuestionModel(id, question, a, b, c, d, correctAns, setId));
-                }
+                            list.add(new QuestionModel(id, question, a, b, c, d, correctAns, setId));
+                        }
 
-                if (list.size() > 0) {
-                    for (int i = 0; i < 4; i++) {
-                        optionContainer.getChildAt(i).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                checkAnswer((Button) v);
+                        if (list.size() > 0) {
+                            for (int i = 0; i < 4; i++) {
+                                optionContainer.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        checkAnswer((Button) v);
+                                    }
+                                });
                             }
-                        });
-                    }
-                    playAnim(question, 0, list.get(position).getQuestion());
-                    nextBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            nextBtn.setEnabled(false);
-                            nextBtn.setAlpha(0.7f);
-                            enableOption(true);
-                            position++;
-                            if (position == list.size()) {
-                                if (mInterstitialAd!= null) {
-                                    mInterstitialAd.show(QuestionActivity.this);
-                                    return;
-                                }
-                                ///score activity
-                                scoreIntent = new Intent(QuestionActivity.this, ScoreActivity.class);
-                                highScore = new Intent(QuestionActivity.this,MainActivity.class);
-                                scoreIntent.putExtra("score", myScore);
-                                scoreIntent.putExtra("total", list.size());
-                                startActivity(scoreIntent);
-                                startActivity(highScore);
-                                finish();
-                                return;
-                            }
-                            count = 0;
                             playAnim(question, 0, list.get(position).getQuestion());
+                            nextBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    nextBtn.setEnabled(false);
+                                    nextBtn.setAlpha(0.7f);
+                                    enableOption(true);
+                                    position++;
+                                    if (position == list.size()) {
+                                        if (mInterstitialAd!= null){
+                                            mInterstitialAd.show(QuestionActivity.this);
+                                            finish();
+                                        }
+                                        ///score activity
+                                        scoreIntent = new Intent(QuestionActivity.this, ScoreActivity.class);
+                                        scoreIntent.putExtra("score", myScore);
+                                        scoreIntent.putExtra("total", list.size());
+                                        startActivity(scoreIntent);
+                                        finish();
+                                        return;
+                                    }
+                                    count = 0;
+                                    playAnim(question, 0, list.get(position).getQuestion());
+                                }
+                            });
+
+                            shareBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String body = list.get(position).getQuestion() + "\n" +
+                                            list.get(position).getA() + "\n" +
+                                            list.get(position).getB() + "\n" +
+                                            list.get(position).getC() + "\n" +
+                                            list.get(position).getD();
+                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                    shareIntent.setType("text/plain ");
+                                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Quiz Challenge");
+                                    shareIntent.putExtra(Intent.EXTRA_TEXT, body);
+                                    startActivity(Intent.createChooser(shareIntent, "share via"));
+                                }
+                            });
+
+                        } else {
+                            finish();
+                            Toast.makeText(QuestionActivity.this, "No Questions", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                        loadingDialog.dismiss();
+                    }
 
-                    shareBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String body = list.get(position).getQuestion() + "\n" +
-                                    list.get(position).getA() + "\n" +
-                                    list.get(position).getB() + "\n" +
-                                    list.get(position).getC() + "\n" +
-                                    list.get(position).getD();
-                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                            shareIntent.setType("text/plain ");
-                            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Quiz Challenge");
-                            shareIntent.putExtra(Intent.EXTRA_TEXT, body);
-                            startActivity(Intent.createChooser(shareIntent, "share via"));
-                        }
-                    });
-
-                } else {
-                    finish();
-                    Toast.makeText(QuestionActivity.this, "No Questions", Toast.LENGTH_SHORT).show();
-                }
-                loadingDialog.dismiss();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(QuestionActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                loadingDialog.dismiss();
-                finish();
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(QuestionActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
+                        finish();
+                    }
+                });
     }
 
     @Override
@@ -244,107 +242,113 @@ public class QuestionActivity extends AppCompatActivity {
     private void playAnim(final View view, final int value, final String data) {
         view.animate().alpha(value).scaleX(value).scaleY(value).setDuration(500).setStartDelay(100)
                 .setInterpolator(new DecelerateInterpolator()).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                countDownTimer.start();
-                if (myRef == null) {
-                    bookmarkBtn.setVisibility(View.GONE);
-                }
-
-                if (optionA.getText().toString().isEmpty()) {
-                    optionA.setVisibility(View.GONE);
-                } else {
-                    optionA.setVisibility(View.VISIBLE);
-                }
-                if (optionB.getText().toString().isEmpty()) {
-                    optionB.setVisibility(View.GONE);
-                } else {
-                    optionB.setVisibility(View.VISIBLE);
-                }
-                if (optionC.getText().toString().isEmpty()) {
-                    optionC.setVisibility(View.GONE);
-                } else {
-                    optionC.setVisibility(View.VISIBLE);
-                }
-                if (optionD.getText().toString().isEmpty()) {
-                    optionD.setVisibility(View.GONE);
-                } else {
-                    optionD.setVisibility(View.VISIBLE);
-                }
-
-                if (value == 0 && count < 4) {
-                    String option = "";
-                    if (count == 0) {
-                        option = list.get(position).getA();
-                    } else if (count == 1) {
-                        option = list.get(position).getB();
-                    } else if (count == 2) {
-                        option = list.get(position).getC();
-                    } else if (count == 3) {
-                        option = list.get(position).getD();
-                    }
-                    playAnim(optionContainer.getChildAt(count), 0, option);
-                    count++;
-                }
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (value == 0) {
-                    try {
-                        ((TextView) view).setText(data);
-                        noIndicator.setText(position + 1 + "/" + list.size());
-                        if (modelMatch()) {
-                            bookmarkBtn.setImageDrawable(getDrawable(R.drawable.bookmark));
-                        } else {
-                            bookmarkBtn.setImageDrawable(getDrawable(R.drawable.ic_bookmark_border));
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        countDownTimer.start();
+                        if (myRef == null) {
+                            bookmarkBtn.setVisibility(View.GONE);
                         }
-                    } catch (ClassCastException ex) {
-                        ((Button) view).setText(data);
+
+                        if (optionA.getText().toString().isEmpty()) {
+                            optionA.setVisibility(View.GONE);
+                        } else {
+                            optionA.setVisibility(View.VISIBLE);
+                        }
+                        if (optionB.getText().toString().isEmpty()) {
+                            optionB.setVisibility(View.GONE);
+                        } else {
+                            optionB.setVisibility(View.VISIBLE);
+                        }
+                        if (optionC.getText().toString().isEmpty()) {
+                            optionC.setVisibility(View.GONE);
+                        } else {
+                            optionC.setVisibility(View.VISIBLE);
+                        }
+                        if (optionD.getText().toString().isEmpty()) {
+                            optionD.setVisibility(View.GONE);
+                        } else {
+                            optionD.setVisibility(View.VISIBLE);
+                        }
+
+                        if (value == 0 && count < 4) {
+                            String option = "";
+                            if (count == 0) {
+                                option = list.get(position).getA();
+                            } else if (count == 1) {
+                                option = list.get(position).getB();
+                            } else if (count == 2) {
+                                option = list.get(position).getC();
+                            } else if (count == 3) {
+                                option = list.get(position).getD();
+                            }
+                            playAnim(optionContainer.getChildAt(count), 0, option);
+                            count++;
+                        }
                     }
-                    view.setTag(data);
-                    playAnim(view, 1, data);
-                }
-            }
 
-            @Override
-            public void onAnimationCancel(Animator animation) {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (value == 0) {
+                            try {
+                                ((TextView) view).setText(data);
+                                noIndicator.setText(position + 1 + "/" + list.size());
+                                if (modelMatch()) {
+                                    bookmarkBtn.setImageDrawable(getDrawable(R.drawable.bookmark));
+                                } else {
+                                    bookmarkBtn.setImageDrawable(getDrawable(R.drawable.ic_bookmark_border));
+                                }
+                            } catch (ClassCastException ex) {
+                                ((Button) view).setText(data);
+                            }
+                            view.setTag(data);
+                            playAnim(view, 1, data);
+                        }
+                    }
 
-            }
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
 
-            @Override
-            public void onAnimationRepeat(Animator animation) {
+                    }
 
-            }
-        });
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
     }
 
     private void checkAnswer(Button selectedOption) {
         enableOption(false);
         nextBtn.setEnabled(true);
         nextBtn.setAlpha(1);
-        String correctAns = list.get(position).getAnswer();
-        if (selectedOption.isPressed()){
-            countDownTimer.cancel();
-        }
-        if (selectedOption.getText().toString().equals(correctAns)) {
-            //correct
-            myScore++;
-            selectedOption.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
-            selectedOption.setTextColor(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
 
-
+        // Ensure that the position is within the valid range of the list
+        if (position < list.size()) {
+            String correctAns = list.get(position).getAnswer();
+            if (selectedOption.isPressed()) {
+                countDownTimer.cancel();
+            }
+            if (selectedOption.getText().toString().equals(correctAns)) {
+                // Correct answer handling
+                myScore++;
+                selectedOption.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
+                selectedOption.setTextColor(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
+            } else {
+                // Incorrect answer handling
+                selectedOption.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                selectedOption.setTextColor(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                Button correctOption = optionContainer.findViewWithTag(correctAns);
+                if (correctOption != null) {
+                    correctOption.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
+                    correctOption.setTextColor(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
+                }
+            }
         } else {
-            ///incorrect
-            selectedOption.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-            selectedOption.setTextColor(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-            Button correctOption = (Button) optionContainer.findViewWithTag(list.get(position).getAnswer());
-            correctOption.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
-            correctOption.setTextColor(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
-
+            // Handle the case when the position is out of bounds
+            // Log or show a message to debug and fix the issue
+            Log.e(TAG, "Index out of bounds: position=" + position + ", list.size()=" + list.size());
         }
     }
-
 
     private void enableOption(boolean enable) {
         for (int i = 0; i < 4; i++) {
@@ -410,14 +414,14 @@ public class QuestionActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-       // mInterstitialAd = new InterstitialAd(this);
+        // mInterstitialAd = new InterstitialAd(this);
         //mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitialAd_adUnitId));
         //mInterstitialAd.loadAd(new AdRequest.Builder().build());
         //mInterstitialAd.setAdListener(new AdListener() {
-           // @Override
-           // public void onAdClosed() {
-               // super.onAdClosed();
-                //mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        // @Override
+        // public void onAdClosed() {
+        // super.onAdClosed();
+        //mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         adRequest = new AdRequest.Builder().build();
         InterstitialAd.load(this,(getString(R.string.interstitialAd_adUnitId)), adRequest,
@@ -474,12 +478,12 @@ public class QuestionActivity extends AppCompatActivity {
                         }else {
                             Log.d("TAG", "The interstitial ad wasn't ready yet.");
                         }
-                            Intent scoreIntent = new Intent(QuestionActivity.this, ScoreActivity.class);
-                            scoreIntent.putExtra("score", myScore);
-                            scoreIntent.putExtra("total", list.size());
-                            startActivity(scoreIntent);
-                            finish();
-                        }
+                        Intent scoreIntent = new Intent(QuestionActivity.this, ScoreActivity.class);
+                        scoreIntent.putExtra("score", myScore);
+                        scoreIntent.putExtra("total", list.size());
+                        startActivity(scoreIntent);
+                        finish();
+                    }
                 })
                 .setNegativeButton("Cancel", null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -534,5 +538,3 @@ public class QuestionActivity extends AppCompatActivity {
     }*/
 
 }
-
-

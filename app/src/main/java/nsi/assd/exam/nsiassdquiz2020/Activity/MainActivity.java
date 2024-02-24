@@ -186,17 +186,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.abt_developer) {
-                    Intent intent = new Intent(MainActivity.this, AboutDeveloper.class);
-                    startActivity(intent);
-
-                } else if (item.getItemId() == R.id.nav_apps) {
-                    Uri uri = Uri.parse("https://play.google.com/store/apps/developer?id=Ramesh+Aryal");
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-
-
-                } else if (item.getItemId() == R.id.nav_privacy_policy) {
+                if (item.getItemId() == R.id.nav_privacy_policy) {
                     PrivacyPolicyDialog();
 
                 } else if (item.getItemId() == R.id.nav_Terms_and_conditions) {
@@ -232,14 +222,14 @@ public class MainActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.whatsapp_me) {
                     try {
                         String mobile = "+9779742531170";
-                        String msg = "Hello Developer,";
+                        String msg = "Hello USG Developer,";
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=" + mobile + "&text=" + msg)));
                     } catch (Exception e) {
                         //whatsApp app not install
                     }
 
                 } else if (item.getItemId() == R.id.about_app) {
-                    Toast.makeText(MainActivity.this, "Version - 3.1", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Version - 3.3", Toast.LENGTH_SHORT).show();
                 }
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
