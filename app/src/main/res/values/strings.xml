@@ -2,22 +2,14 @@
     <string name="app_name">Uae Security Guard</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">ramesh.aryal86@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
     <string name="bookmarks">Bookmark</string>
     <string name="start_quiz">Start Quiz</string>
     <string name="title">Title</string>
     <string name="sets">Sets</string>
     <string name="share_btn">Share</string>
     <string name="next_btn">Next</string>
-    <string name="textview">TextView</string>
-    <string name="score_text">5/10</string>
-    <string name="optionA">Button</string>
-    <string name="optionB">Button</string>
-    <string name="optionC">button</string>
-    <string name="optionD">button</string>
     <string name="score">score</string>
     <string name="score_5">5</string>
     <string name="Out_of_50">OUT OF 50</string>
@@ -25,15 +17,11 @@
     <string name="loading_text">Loading…</string>
     <string name="bookmark_question">question</string>
     <string name="bookmark_ans">answer</string>
-    <string name="home">Home</string>
-    <string name="about_developer">About Developer</string>
-    <string name="my_other_app">My other apps</string>
     <string name="rate_us">Rate us</string>
     <string name="communicate">Communicate</string>
     <string name="share">Share</string>
     <string name="contact_us">Email us</string>
     <string name="about_devloper">Ramesh Aryal Securiguard Middle East Abudhabi UAE, ID No. 11534 E-mail: ramesh.aryal86@gmail.com djlukky@gmail.com  Mobile: 0551366480</string>
-    <string name="dismiss_btn">Dismiss</string>
     <string name="notification">notification</string>
     <string name="message">message</string>
 <!--    <string name="banner_adUnitId">ca-app-pub-3940256099942544/6300978111</string>-->
@@ -52,26 +40,18 @@
      <string name="countdown_timer">0.30</string>
      <string name="banner_adUnitId">ca-app-pub-5036751140347494/9052827191</string>
      <string name="interstitialAd_adUnitId">ca-app-pub-5036751140347494/2575920897</string>
-    <string name="high_score">Score = 0</string>
     <string name="nsi_book">Nsi Book</string>
     <string name="useful_contacts">Useful Contacts</string>
-    <string name="exchange_rate">Exchange Rate</string>
     <string name="contact_department">Department</string>
     <string name="contact_number">Contact Number</string>
-    <string name="convertText">Convert</string>
-    <string name="toCTA">↓</string>
-    <string name="fromHint">Enter Amount</string>
-    <string name="toHint">Press Convert</string>
-    <string name="night_mode">Night Mode</string>
-    <string name="todo">todo</string>
     <string name="about_uee">About UAE</string>
     <string name="guideline">Guideline</string>
     <string name="others">Others</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="Terms_and_Conditions">Terms and Conditions</string>
     <string name="tips">Tips</string>
-    <string name="ok">OK</string>
     <string name="virtual_exam">Online Exam</string>
     <string name="about_app">About App</string>
+    <string name="todo">TODO</string>
 
 </resources>

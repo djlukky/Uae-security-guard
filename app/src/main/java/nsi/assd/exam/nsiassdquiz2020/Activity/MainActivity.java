@@ -45,6 +45,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import hotchemi.android.rate.AppRate;
+import nsi.assd.exam.nsiassdquiz2020.Adapter.InterstitialAdHelper;
 import nsi.assd.exam.nsiassdquiz2020.Adapter.MainAdapter;
 import nsi.assd.exam.nsiassdquiz2020.Model.ImageSliderModel;
 import nsi.assd.exam.nsiassdquiz2020.OtherClass.AboutDeveloper;
@@ -55,10 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private int totalCount;
-    private RecyclerView recyclerView;
-    private List<String> title;
-    private List<Integer> icon;
-    private MainAdapter adapter;
     private AppUpdateManager appUpdateManager;
     public static int RC_APP_UPDATE = 100;
 
@@ -75,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
         appRate();
         Drawer();
 
-        recyclerView = findViewById(R.id.homeRecyclerView);
+        RecyclerView recyclerView = findViewById(R.id.homeRecyclerView);
 
-        title = new ArrayList<>();
-        icon = new ArrayList<>();
-        adapter = new MainAdapter(this, title, icon);
+        List<String> title = new ArrayList<>();
+        List<Integer> icon = new ArrayList<>();
+        MainAdapter adapter = new MainAdapter(this, title, icon);
 
         icon.add(R.drawable.start_quiz_256);
         icon.add(R.drawable.notes_256);
@@ -131,9 +128,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadAds() {
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        InterstitialAdHelper.interAds(MainActivity.this);
+//        AdView mAdView = findViewById(R.id.adView);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        mAdView.loadAd(adRequest);
     }
 
     @Override

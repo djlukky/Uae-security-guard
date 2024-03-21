@@ -12,7 +12,6 @@
     tools:showIn="@layout/app_bar_main">
 
     <androidx.core.widget.NestedScrollView
-        android:layout_above="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -35,13 +34,13 @@
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/banner_adUnitId" />
+<!--    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"-->
+<!--        android:id="@+id/adView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        ads:adSize="SMART_BANNER"-->
+<!--        ads:adUnitId="@string/banner_adUnitId" />-->
 </RelativeLayout>
 
