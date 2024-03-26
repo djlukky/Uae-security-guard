@@ -1,6 +1,7 @@
 package nsi.assd.exam.nsiassdquiz2020.Activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -48,7 +49,6 @@ import hotchemi.android.rate.AppRate;
 import nsi.assd.exam.nsiassdquiz2020.Adapter.InterstitialAdHelper;
 import nsi.assd.exam.nsiassdquiz2020.Adapter.MainAdapter;
 import nsi.assd.exam.nsiassdquiz2020.Model.ImageSliderModel;
-import nsi.assd.exam.nsiassdquiz2020.OtherClass.AboutDeveloper;
 import nsi.assd.exam.nsiassdquiz2020.R;
 import static nsi.assd.exam.nsiassdquiz2020.Activity.ScoreActivity.myScore;
 
@@ -185,13 +185,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.nav_privacy_policy) {
-                    PrivacyPolicyDialog();
-
-                } else if (item.getItemId() == R.id.nav_Terms_and_conditions) {
-                    termAndConditionsDialog();
+                    Intent intent = new Intent(MainActivity.this, PrivacyPolicy.class);
+                    startActivity(intent);
 
                 } else if (item.getItemId() == R.id.update) {
                     Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=nsi.assd.exam.nsiassdquiz2020");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+
+
+                } else if (item.getItemId() == R.id.my_other_apps) {
+                    Uri uri = Uri.parse("https://play.google.com/store/apps/developer?id=Ramesh+Aryal&hl=en&gl=US");
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
 
@@ -227,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 } else if (item.getItemId() == R.id.about_app) {
-                    Toast.makeText(MainActivity.this, "Version - 3.3", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Version - 3.6", Toast.LENGTH_SHORT).show();
                 }
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
@@ -249,45 +253,45 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void PrivacyPolicyDialog() {
-        final Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setContentView(R.layout.privacy_policy_dialog);
-        dialog.setCancelable(false);
-        Window window = dialog.getWindow();
-        window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        WebView webView = dialog.findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient( new WebViewClient());
-        webView.loadUrl("https://www.ramesh-aryal.com.np/p/nsi-assd-quiz-2021-privacy-policy.html");
-        Button okBtn = dialog.findViewById(R.id.ok_btn);
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
+//    private void PrivacyPolicyDialog() {
+//        final Dialog dialog = new Dialog(MainActivity.this);
+//        dialog.setContentView(R.layout.privacy_policy_dialog);
+//        dialog.setCancelable(false);
+//        Window window = dialog.getWindow();
+//        window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+//        WebView webView = dialog.findViewById(R.id.webView);
+//        webView.getSettings().setJavaScriptEnabled(true);
+//        webView.setWebViewClient( new WebViewClient());
+//        webView.loadUrl("https://sites.google.com/view/aeguard/privacy-policy");
+//        Button okBtn = dialog.findViewById(R.id.ok_btn);
+//        okBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//        dialog.show();
+//    }
 
-    private void termAndConditionsDialog() {
-        final Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setContentView(R.layout.privacy_policy_dialog);
-        dialog.setCancelable(false);
-        Window window = dialog.getWindow();
-        window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        WebView webView = dialog.findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient( new WebViewClient());
-        webView.loadUrl("https://www.ramesh-aryal.com.np/p/uae-security-guard-terms-and-condition.html");
-        Button okBtn = dialog.findViewById(R.id.ok_btn);
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
+//    private void termAndConditionsDialog() {
+//        final Dialog dialog = new Dialog(MainActivity.this);
+//        dialog.setContentView(R.layout.privacy_policy_dialog);
+//        dialog.setCancelable(false);
+//        Window window = dialog.getWindow();
+//        window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        WebView webView = dialog.findViewById(R.id.webView);
+//        webView.getSettings().setJavaScriptEnabled(true);
+//        webView.setWebViewClient( new WebViewClient());
+//        webView.loadUrl("https://www.ramesh-aryal.com.np/p/uae-security-guard-terms-and-condition.html");
+//        Button okBtn = dialog.findViewById(R.id.ok_btn);
+//        okBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//        dialog.show();
+//    }
 
     private void updateApp() {
       appUpdateManager = AppUpdateManagerFactory.create(this);

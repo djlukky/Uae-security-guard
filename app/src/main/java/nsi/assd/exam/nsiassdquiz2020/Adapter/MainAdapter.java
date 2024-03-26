@@ -27,6 +27,7 @@ import nsi.assd.exam.nsiassdquiz2020.Activity.NoteCategoryActivity;
 import nsi.assd.exam.nsiassdquiz2020.Activity.NsiBook;
 import nsi.assd.exam.nsiassdquiz2020.Activity.UsefulContact;
 import nsi.assd.exam.nsiassdquiz2020.Activity.VirtualExam;
+import nsi.assd.exam.nsiassdquiz2020.Activity.VirtualExamGrid;
 import nsi.assd.exam.nsiassdquiz2020.R;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> {
@@ -99,7 +100,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
                                     v.getContext().startActivity(contactIntent);
                                     break;
                                 case 8:
-                                    Intent examIntent = new Intent(v.getContext(), VirtualExam.class);
+                                    Intent examIntent = new Intent(v.getContext(), VirtualExamGrid.class);
                                     v.getContext().startActivity(examIntent);
                                     break;
 

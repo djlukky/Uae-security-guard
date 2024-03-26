@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".OtherClass.OfflineFirebase"
@@ -12,6 +17,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".Activity.PrivacyPolicy"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.GridSetSeven"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.GridSetSix"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.GridSetFive"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.GridSetFour"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.GridSetThree"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.GridSetTwo"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.GridSetOne"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.VirtualExamGrid"
+            android:exported="false" />
         <activity android:name=".Activity.VirtualExam" />
         <activity android:name=".Activity.ImportantTipsActivity" />
         <activity android:name=".Activity.GuidelineActivity" />
@@ -23,7 +55,6 @@
         <activity android:name=".Activity.NoteSetsActivity" />
         <activity android:name=".Activity.NoteCategoryActivity" />
         <activity android:name=".Activity.NotificationsActivity" />
-        <activity android:name=".OtherClass.AboutDeveloper" />
         <activity android:name=".Activity.BookmarkActivity" />
         <activity android:name=".Activity.ScoreActivity" />
         <activity android:name=".Activity.QuestionActivity" />
@@ -32,10 +63,10 @@
         <activity android:name=".Activity.MainActivity" />
         <activity
             android:name=".Activity.SplashActivity"
+            android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.Design.Light.NoActionBar"
-            android:exported="true">
+            android:theme="@style/Theme.Design.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,11 +77,5 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

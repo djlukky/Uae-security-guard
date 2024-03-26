@@ -16,6 +16,10 @@
             android:id="@+id/update"
             android:icon="@drawable/ic_update_app"
             android:title="@string/check_for_update" />
+        <item
+            android:id="@+id/my_other_apps"
+            android:icon="@drawable/my_other_app"
+            android:title="@string/my_other_apps" />
 
     </group>
 
@@ -41,10 +45,6 @@
                 android:id="@+id/nav_privacy_policy"
                 android:icon="@drawable/privacy_policy"
                 android:title="@string/privacy_policy" />
-            <item
-                android:id="@+id/nav_Terms_and_conditions"
-                android:icon="@drawable/terms_and_condition"
-                android:title="@string/Terms_and_Conditions" />
             <item
                 android:id="@+id/about_app"
                 android:icon="@drawable/common_full_open_on_phone"

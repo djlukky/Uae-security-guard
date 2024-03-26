@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Uae Security Guard</string>
+    <string name="app_name">AEsecurity Guard</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_subtitle">ramesh.aryal86@gmail.com</string>
@@ -21,25 +21,27 @@
     <string name="communicate">Communicate</string>
     <string name="share">Share</string>
     <string name="contact_us">Email us</string>
-    <string name="about_devloper">Ramesh Aryal Securiguard Middle East Abudhabi UAE, ID No. 11534 E-mail: ramesh.aryal86@gmail.com djlukky@gmail.com  Mobile: 0551366480</string>
     <string name="notification">notification</string>
     <string name="message">message</string>
-<!--    <string name="banner_adUnitId">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--     <string name="interstitialAd_adUnitId">ca-app-pub-3940256099942544/1033173712</string>-->
-     <string name="connection_failed">Unable to download new Questions Answers , Please check your Internet Connection</string>
-     <string name="category_no_connection">Unable to connect, Please check your Internet Connection</string>
-     <string name="notification_no_connection">Unable to connect, Please check your Internet Connection</string>
-     <string name="splash_text1">UAE Security Guard</string>
-     <string name="splash_text2">Developed by Ramesh Aryal</string>
-     <string name="whatsapp_me">Whatsapp me</string>
-     <string name="notes">Notes</string>
-     <string name="question">Question</string>
-     <string name="check_for_update">Check for update</string>
-     <string name="exit">Exit</string>
-     <string name="no._indicator">1/50</string>
-     <string name="countdown_timer">0.30</string>
-     <string name="banner_adUnitId">ca-app-pub-5036751140347494/9052827191</string>
-     <string name="interstitialAd_adUnitId">ca-app-pub-5036751140347494/2575920897</string>
+    <!--    test banner id - ca-app-pub-3940256099942544/6300978111 -->
+    <!--    test interstitial id -ca-app-pub-3940256099942544/1033173712-->
+
+    <!--    my banner id - ca-app-pub-5036751140347494/9052827191 -->
+    <!--    my interstitial id -ca-app-pub-5036751140347494/2575920897-->
+    <string name="connection_failed">Unable to download new Questions Answers , Please check your Internet Connection</string>
+    <string name="category_no_connection">Unable to connect, Please check your Internet Connection</string>
+    <string name="notification_no_connection">Unable to connect, Please check your Internet Connection</string>
+    <string name="splash_text1">UAE Security Guard</string>
+    <string name="splash_text2">Developed by Ramesh Aryal</string>
+    <string name="whatsapp_me">Whatsapp me</string>
+    <string name="notes">Notes</string>
+    <string name="question">Question</string>
+    <string name="check_for_update">Check for update</string>
+    <string name="exit">Exit</string>
+    <string name="no._indicator">1/50</string>
+    <string name="countdown_timer">0.30</string>
+    <string name="banner_adUnitId">ca-app-pub-5036751140347494/9052827191</string>
+    <string name="interstitialAd_adUnitId">ca-app-pub-5036751140347494/2575920897</string>
     <string name="nsi_book">Nsi Book</string>
     <string name="useful_contacts">Useful Contacts</string>
     <string name="contact_department">Department</string>
@@ -53,5 +55,6 @@
     <string name="virtual_exam">Online Exam</string>
     <string name="about_app">About App</string>
     <string name="todo">TODO</string>
+    <string name="my_other_apps">My Other Apps</string>
 
 </resources>
